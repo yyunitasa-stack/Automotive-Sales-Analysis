@@ -18,49 +18,132 @@ CREATE TABLE public.showroom_mobil(
     branch_address TEXT
 );
 
+-- menyesuaikan tipe data masing masing kolom
+CREATE TABLE automotive.showroom_mobil AS
+SELECT
+    TO_DATE(sales_date, 'MM/DD/YYYY') AS sales_date,
+    order_id,
+    customer_name,
+    branch,
+    product_name,
+    category,
+    color,
+    price::INT AS price,
+    quantity::INT AS quantity,
+    payment_type,
+    trade_in::INT AS trade_in,
+    discount::INT AS discount,
+    total::INT AS total,
+    total_sales::INT AS total_sales,
+    status,
+    branch_address
+FROM automotive.showroom_mobil_raw;
+
 -- menampilkan semua data
 SELECT * FROM automotive.showroom_mobil;
 
--- top 5 branch by total sales
-SELECT branch, SUM(total_sales) AS Total_Penjualan
+-- Sales Trend Over Time
+--- Bagaimana perkembangan total penjualan dari waktu ke waktu?
+SELECT
+    TO_CHAR(sales_date, 'TMMonth') AS bulan,
+    SUM(total_sales) AS total_penjualan
 FROM automotive.showroom_mobil
+WHERE status = 'completed'
+GROUP BY
+    EXTRACT(MONTH FROM sales_date),
+    TO_CHAR(sales_date, 'TMMonth')
+ORDER BY
+    EXTRACT(MONTH FROM sales_date);
+
+-- Branch Performance
+--- Bagaimana performa penjualan di setiap cabang?
+SELECT
+    branch,
+    SUM(total_sales) AS total_penjualan
+FROM automotive.showroom_mobil
+WHERE status = 'completed'
 GROUP BY branch
-ORDER BY Total_Penjualan DESC
-LIMIT 5;
+ORDER BY total_penjualan DESC;
 
--- top 5 products by total sales
-SELECT product_name, SUM(total_sales) AS Total_Penjualan
+-- Category Performance
+--- Kategori kendaraan apa yang memberikan kontribusi penjualan terbesar?
+SELECT
+    category,
+    SUM(total_sales) AS total_penjualan
 FROM automotive.showroom_mobil
+WHERE status = 'completed'
+GROUP BY category
+ORDER BY total_penjualan DESC;
+
+-- Top 5 Best-Selling Products
+--- Produk kendaraan apa yang memberikan kontribusi penjualan terbesar?
+SELECT
+    product_name,
+    SUM(total_sales) AS total_penjualan
+FROM automotive.showroom_mobil
+WHERE status = 'completed'
 GROUP BY product_name
-ORDER BY Total_Penjualan DESC
+ORDER BY total_penjualan DESC
 LIMIT 5;
 
--- payment type distribution
-SELECT payment_type, COUNT(*) AS Jumlah_Transaksi
-FROM automotive.showroom_mobil
-GROUP BY payment_type;
-
--- status distribution & berdasarkan total sales
-SELECT status, COUNT(*) AS Jumlah_Transaksi, SUM(total_sales) AS Total_Penjualan
-FROM automotive.showroom_mobil
-GROUP BY status;
-
--- top 3 customer dengan pembelian di atas rata-rata penjualan
-WITH customer_sales AS (
+-- Top 1 Product by Branch
+--- Produk apa yang menjadi produk dengan penjualan tertinggi di setiap cabang?
+WITH product_sales AS (
     SELECT
-        customer_name,
-        SUM(total_sales) AS total_pembelian
+        branch,
+        category,
+        product_name,
+        SUM(total_sales) AS total_penjualan
     FROM automotive.showroom_mobil
-    GROUP BY customer_name
+    WHERE status = 'completed'
+    GROUP BY
+        branch,
+        category,
+        product_name
+),
+ranked_product AS (
+    SELECT
+        branch,
+        category,
+        product_name,
+        total_penjualan,
+        ROW_NUMBER() OVER (
+            PARTITION BY branch
+            ORDER BY total_penjualan DESC
+        ) AS ranking
+    FROM product_sales
 )
+SELECT
+    branch,
+    category,
+    product_name,
+    total_penjualan
+FROM ranked_product
+WHERE ranking = 1
+ORDER BY branch;
 
+-- Customer Transaction Frequency
+--- Siapa customer dengan frekuensi transaksi tertinggi?
 SELECT
     customer_name,
-    total_pembelian
-FROM customer_sales
-WHERE total_pembelian > (
-    SELECT AVG(total_pembelian)
-    FROM customer_sales
-)
-ORDER BY total_pembelian DESC
-LIMIT 3;
+    COUNT(*) AS jumlah_transaksi,
+    SUM(total_sales) AS total_purchase
+FROM automotive.showroom_mobil
+WHERE status = 'completed'
+GROUP BY customer_name
+HAVING COUNT(*) >= 5
+ORDER BY jumlah_transaksi DESC;
+
+-- Transaction Status Distribution
+--- Bagaimana distribusi transaksi berdasarkan status?
+SELECT
+    status,
+    COUNT(*) AS jumlah_transaksi,
+    ROUND(
+        COUNT(*)::NUMERIC
+        / SUM(COUNT(*)) OVER () * 100,
+        2
+    ) AS persentase_transaksi
+FROM automotive.showroom_mobil
+GROUP BY status
+ORDER BY jumlah_transaksi DESC;
