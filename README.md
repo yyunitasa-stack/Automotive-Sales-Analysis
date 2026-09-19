@@ -24,7 +24,7 @@ Dataset yang digunakan pada <i>project</i> ini merupakan data <i>dummy</i> yang 
 | Branch performance | branch, branch_adress |
 | Sales performance | price, quantity, discount, trade_in, total, total_sales |
 
-Detail dari dataset bisa dilihat di sini.
+Detail dari dataset bisa dilihat [di sini](https://github.com/yyunitasa-stack/Automotive-Sales-Analysis/blob/main/Dataset/showroom_mobil_10cabang.csv).
 
 ## Project Workflow
 <p style="text-align:justify;text-indent:40px;">
