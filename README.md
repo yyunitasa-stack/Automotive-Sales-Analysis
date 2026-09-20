@@ -160,25 +160,19 @@ Performa penjualan kendaraan selama tahun 2025 divisualisasikan melalui <i>dashb
 Klik [di sini](https://app.powerbi.com/view?r=eyJrIjoiNzUxMGE1YWEtMWNhYy00Y2MyLWEzNTctNmE4OTM5NWVhNDU3IiwidCI6IjA2NWRlODU2LTE3NzAtNGZiZS05N2U0LTdjZTA1MTMxYThhNSIsImMiOjEwfQ%3D%3D) untuk melihat detail <i>dashboard</i>.
 
 ## Key Insights
-- <b>Kategori SUV Mendominasi Penjualan</b>
-
+<p><b>Kategori SUV Mendominasi Penjualan</b>
 SUV berkontribusi  sebesar Rp1,77 triliun, atau sekitar 57% dari total sales, jauh lebih tinggi dibandingkan kategori kendaraan lainnya.</p>
-- <b>Metode Pembayaran Kredit Menjadi Pilihan Utama Pelanggan </b>
-
+<p><b>Metode Pembayaran Kredit Menjadi Pilihan Utama Pelanggan </b>
 Pembayaran secara kredit mencakup 50,4% dari total transaksi dan menjadi metode pembayaran yang paling banyak diminati dan digunakan oleh pelanggan dalam membeli kendaraan.</p>
-- <b>10,3% Transaksi Tidak Selesai </b>
-
+<p><b>10,3% Transaksi Tidak Selesai </b>
 Total transaksi dengan status <i>cancellation & refund</i> mencapai 10,3% dari total transaksi.</p>
 
 ## Business Reccomendations
-- <b>Prioritaskan Promosi dan Ketersediaan Stok pada Kategori SUV</b>
-
+<p><b>Prioritaskan Promosi dan Ketersediaan Stok pada Kategori SUV</b>
 Dengan kontribusi sekitar 57% dari total sales, perusahaan dapat memprioritaskan ketersediaan unit SUV serta menyusun strategi promosi yang sesuai untuk mempertahankan dan meningkatkan kontribusi penjualan kategori tersebut.</p>
-- <b>Optimalkan Penawaran Pembayaran secara Kredit</b>
-
+<p><b>Optimalkan Penawaran Pembayaran secara Kredit</b>
 Karena 50,4% pembayaran transaksi dilakukan secara kredit, perusahaan dapat memperkuat penawaran dengan menambah opsi tenor dan memberikan informasi cicilan yang jelas untuk mempermudah pelanggan dalam proses pembelian kendaraan. </p>
-- <b>Evaluasi Penyebab Cancellation & Refund</b>
-
+<p><b>Evaluasi Penyebab Cancellation & Refund</b>
 Transaksi yang tidak selesai/tuntas mencapai 10,3%. Sehingga perusahaan perlu mengidentifikasi dan mengevaluasi penyebabnya sebagai antisipasi untuk mengurangi potensi peningkatan transaksi <i>cancelltion & refund</i></p>
 
 ## Limitations
